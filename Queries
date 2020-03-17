@@ -1,0 +1,44 @@
+/* list the e-mail of our customers*/
+
+SELECT customer.email, customer.surname, customer.name
+FROM `customer`ORDER BY surname;
+
+/* who works in every facility and wich task they have?*/
+
+SELECT facility.name, city.name, employee.name, employee.surname, contract.task
+FROM `facility`
+INNER JOIN `address` ON facility.fk_address_id = address.address_id
+INNER JOIN `city` ON address.fk_city_id = city.city_id
+INNER JOIN `employee` ON facility.fk_employee_id = employee.employee_id
+INNER JOIN `contract`ON employee.fk_contract_id = contract.contract_id;
+
+
+/* How many packet Fulvia has sent and wich type? */
+
+SELECT  customer.name, customer.surname, package.type
+FROM `customer`
+JOIN `package` on package.fk_customer_id = customer.customer_id
+WHERE customer.name = 'Fulvia';
+
+/*Wich employee´s name starts with C or surname starts with M?*/
+
+SELECT employee.name, employee.surname
+FROM `employee`
+WHERE employee.name LIKE 'C%' OR employee.surname LIKE 'M%'ORDER BY NAME DESC ;
+
+/*Wich contract has every employees?*/
+
+SELECT employee.name, contract.type
+FROM `employee`
+INNER JOIN `contract` on fk_contract_id = contract_id;
+
+/*where are my packages now?*/
+
+SELECT package.package_id, city.name, city.nation, status.status
+FROM `package`
+JOIN `delivery_process` ON package.package_id = delivery_process.fk_package_id
+JOIN `position` ON position.position_id = delivery_process.fk_position_id
+JOIN `facility` ON position.fk_facility_id = facility.facility_id
+JOIN `status` ON position.fk_status_id = status.status_id
+JOIN `address` ON facility.fk_address_id = address.address_id
+JOIN `city` ON address.fk_city_id = city.city_id;
